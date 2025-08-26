@@ -7,8 +7,9 @@ const POKELIST_API = `https://pokeapi.co/api/v2/pokemon?limit=151&offset=0`;
 const POKELISTIND_API = '';
 
 class PokeListAPI {
-  get = async(arr) => {
+  get = async(arr, changeBooState) => {
     try {
+      changeBooState(true)
       const resp1 = await fetch(POKELIST_API);
       const data1 = await resp1.json();
 
@@ -17,6 +18,7 @@ class PokeListAPI {
         const data2 = await resp2.json()
         arr.push(data2);
       }
+      changeBooState(false);
 
     } catch(e) {
       console.log('There was an error trying to fetch data', e);
