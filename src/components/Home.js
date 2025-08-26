@@ -1,11 +1,11 @@
 import React from 'react';
 import PokeCardList from './PokeCardList';
 
-function Home() {
+function Home({pokeList}) {
   return (
     <div>
     <div>Home</div>
-    <PokeCardList />
+    <PokeCardList pokeList={pokeList}/>
     </div>
   )
 }

@@ -1,24 +1,22 @@
-import logo from './logo.svg';
+
+import { useState,useEffect } from 'react';
+import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import './App.css';
+import { pokeListAPI } from './components/PokeAPI';
+import Home from './components/Home';
 
 function App() {
+
+  const [pokeList, setPokeList] = useState([]);
+
+  useEffect(() => {
+    const pokeListArr = [];
+    pokeListAPI.get(pokeListArr);
+    setPokeList(pokeListArr)
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Home pokeList={pokeList}/>
   );
 }
 
