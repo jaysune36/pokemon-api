@@ -5,7 +5,9 @@ function Home() {
 
   return (
     <div>
-      <p></p>
+      <p>
+        Catching Them all... Please Wait
+      </p>
     </div>
   )
 }

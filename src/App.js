@@ -37,9 +37,8 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
-  <Home />
       {isLoading ? (
-          <p>Catching Them All!... Please Wait!</p>
+            <Home />
         ) : (
             <PokeCardList pokeList={pokeList} />
         )

@@ -9,9 +9,9 @@ function PokeCardList({pokeList}) {
       Sprite={pokeList[key].sprites.front_default}
       />);
   }
-  
+
   return (
-    <div className='container'>
+    <div className='d-flex justify-content-center flex-wrap'>
       {pokeListArr}
       </div>
   )
