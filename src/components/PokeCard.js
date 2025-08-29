@@ -1,16 +1,24 @@
-import React from "react"; 
+import React, {useState} from "react"; 
 import { Card } from "react-bootstrap";
+import MydModalWithGrid from "./MydModalWithGrid";
 
 function PokeCard (props) {
 
+    const [modalShow, setModalShow] = useState(false);
+
   return (
     <div className="d-inline-flex p-2 flex-row justify-content-center flex-wrap">
-      <Card className="pokeCard">
-        <Card.Img variant="top" src={props.Sprite}/>
-        <Card.Body className="border-top">
+      <Card className="pokeCard" onClick={()=> setModalShow(true)}>
+        <Card.Img variant="top" className="pokeCardImg" src={props.Sprite}/>
+        <Card.Body className="border-top pokeCardBdy">
           <Card.Title>{props.Name}</Card.Title>
         </Card.Body>
       </Card>
+
+      <MydModalWithGrid show={modalShow} onHide={() => setModalShow(false)}>
+        <h2>hello world</h2>
+        </MydModalWithGrid>
+
     </div>
   )
 }

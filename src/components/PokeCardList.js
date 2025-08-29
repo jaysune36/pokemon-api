@@ -1,4 +1,7 @@
-import PokeCard from './PokeCard'
+
+import Button from 'react-bootstrap/Button';
+import PokeCard from './PokeCard';
+import MydModalWithGrid from './MydModalWithGrid';
 
 function PokeCardList({pokeList}) {
 
