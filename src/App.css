@@ -48,3 +48,17 @@
   cursor: pointer;
 }
 
+.mainImgModal{
+  height: 300px;
+}
+
+.mainImgModal img {
+  height: 100%;
+  max-width: 100%;
+}
+
+.sideImgModal img:hover {
+  cursor: pointer;
+  border: 1px solid #000;
+  border-radius: 5px;
+}
