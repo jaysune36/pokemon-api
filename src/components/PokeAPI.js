@@ -2,10 +2,6 @@
 
 const POKELIST_API = `https://pokeapi.co/api/v2/pokemon?limit=151&offset=0`;
 
-//Empty variable created to hold individual url for each API that is returned for the POKELIST_API
-
-const POKELISTIND_API = '';
-
 class PokeListAPI {
   get = async(arr, changeBooState) => {
     try {
@@ -26,4 +22,17 @@ class PokeListAPI {
   }
 }
 
+class PokeListAPIIndividual {
+  get = async(url) => {
+    try {
+      const resp = await fetch(url)
+      const data = await resp.json();
+      return data
+    } catch(e) {
+      console.log('There was an error fetching individual data', e)
+    }
+  }
+}
+
 export const pokeListAPI = new PokeListAPI();
+export const pokeAPIIndividual = new PokeListAPIIndividual();

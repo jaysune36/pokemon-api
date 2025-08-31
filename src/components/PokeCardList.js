@@ -5,8 +5,13 @@ function PokeCardList({pokeList}) {
   let pokeListArr = [];
 
     for(let key of Object.keys(pokeList)) {
-    pokeListArr.push(<PokeCard key={key} id={key} pokeListPokemon={pokeList[key]} Name={pokeList[key].name} 
-      Sprite={pokeList[key].sprites.front_default}
+    pokeListArr.push(<PokeCard 
+      key={key} 
+      id={key}
+      pokeListPokemon={pokeList[key]} 
+      name={pokeList[key].name} 
+      sprite={pokeList[key].sprites.front_default}
+      url ={pokeList[key].species.url}
       />);
   }
 

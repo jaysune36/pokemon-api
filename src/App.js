@@ -20,9 +20,6 @@ function App() {
     
     pokeListAPI.get(pokeListArr, setIsLoading);
     setPokeList(pokeListArr);
-    
-      
-    
   }, [])
 
   return (
