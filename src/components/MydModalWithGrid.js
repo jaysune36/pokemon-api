@@ -1,13 +1,37 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import { Image } from 'react-bootstrap';
+import { pokeListAPI } from './PokeAPI';
 
 
 function MydModalWithGrid(props) {
+
+  const [isHovered, setIsHovered] = useState(false);
+  const mainImgModalSrc = useRef(props.Sprite);
+  
+  const PokeImgList = {
+    mainImg: props.Sprite,
+    mainBackImg: props.pokeListPokemon.sprites.back_default,
+    shinyImg: props.pokeListPokemon.sprites.front_shiny,
+    shinyBackImg: props.pokeListPokemon.sprites.back_shiny
+  }
+
+  const handleMouseOver = (imgRef) => {
+    setIsHovered(true);
+    if(mainImgModalSrc.current) {
+      mainImgModalSrc.current.src = imgRef;
+      console.log(mainImgModalSrc.current);
+    }
+  }
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    mainImgModalSrc.current.src = PokeImgList.mainImg;
+  }
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter">
@@ -20,12 +44,18 @@ function MydModalWithGrid(props) {
         <Container>
           <Row >
             <Col xs={12} md={8} className='mainImgModal d-flex flex-direction-column'>
-              <Image src={props.Sprite}/>
+              <Image src={props.Sprite} ref={mainImgModalSrc}/>
             </Col>
             <Col xs={6} md={4} className='sideImgModal'>
-            <Image src={props.pokeListPokemon.sprites.back_default}/>
-            <Image src={props.pokeListPokemon.sprites.front_shiny}/>
-            <Image src={props.pokeListPokemon.sprites.back_shiny}/>
+            <Image onMouseEnter={()=>handleMouseOver(PokeImgList.mainBackImg)} 
+            onMouseLeave={handleMouseLeave}
+            src={PokeImgList.mainBackImg}
+            />
+            <Image onMouseEnter={()=>handleMouseOver(PokeImgList.shinyImg)} 
+            onMouseLeave={handleMouseLeave}
+            src={PokeImgList.shinyImg}/>
+            <Image onMouseEnter={()=>handleMouseOver(PokeImgList.shinyBackImg)} 
+            onMouseLeave={handleMouseLeave} src={PokeImgList.shinyBackImg}/>
             </Col>
           </Row>
 
