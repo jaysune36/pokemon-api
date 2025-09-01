@@ -22,4 +22,4 @@ function PokeCardList({pokeList}) {
   )
 }
 
-export default PokeCardList
+export default PokeCardList;

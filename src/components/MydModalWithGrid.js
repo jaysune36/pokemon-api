@@ -5,31 +5,30 @@ import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import { Image } from 'react-bootstrap';
-import { pokeAPIIndividual } from './PokeAPI';
+// import { pokeAPIIndividual } from './PokeAPI';
 
 
 function MydModalWithGrid(props) {
 
   const [isHovered, setIsHovered] = useState(false);
-  const [pokeTextInfo, setPokeTextInfo] = useState([]);
-  const [pokeUrlBoo, setPokeUrlBoo] = useState(false);
-  const [pokeUrl, setPokeUrl] = useState('');
+  // const [pokeTextInfo, setPokeTextInfo] = useState([]);
+  // const [pokeUrlBoo, setPokeUrlBoo] = useState(false);
+  // const [pokeUrl, setPokeUrl] = useState('');
   const mainImgModalSrc = useRef(props.Sprite);
 
-  if(props.url) {
-    setPokeUrl(props.url);
-    setPokeUrlBoo(true);
-  } else {
-    console.log('false')
-  }
+  // if(props.url) {
+  //   setPokeUrl(props.url);
+  //   setPokeUrlBoo(true);
+  // } else {
+  //   console.log('false')
+  // }
 
-    useEffect(() => {
-      if(!pokeUrlBoo) {
-        pokeAPIIndividual.get(pokeUrl)
-        .then(data=>setPokeTextInfo(data))
-      }
+  //   useEffect(() => {
+  //    if(isHovered) {
+  //     setIsHovered(true)
+  //    }
       
-  }, [])
+  // }, [isHovered])
   
   
   const PokeImgList = {
@@ -41,8 +40,7 @@ function MydModalWithGrid(props) {
 
   const handleMouseOver = (imgRef) => {
     setIsHovered(true);
-    console.log(pokeTextInfo.flavor_text_entries[0].flavor_text)
-    if(mainImgModalSrc.current && isHovered) {
+    if(mainImgModalSrc.current.src === PokeImgList.mainImg || isHovered) {
       mainImgModalSrc.current.src = imgRef;
     }
   }
@@ -64,7 +62,7 @@ function MydModalWithGrid(props) {
         <Container>
           <Row >
             <Col xs={12} md={8} className='mainImgModal d-flex flex-direction-column'>
-              <Image src={props.sprite} ref={mainImgModalSrc}/>
+              <Image src={PokeImgList.mainImg} ref={mainImgModalSrc}/>
             </Col>
             <Col xs={6} md={4} className='sideImgModal'>
             <Image onMouseEnter={()=>handleMouseOver(PokeImgList.mainBackImg)} 
@@ -80,7 +78,7 @@ function MydModalWithGrid(props) {
           </Row>
           <Row className='border-top border-bottom'>
             <Col>
-            <p className='pt-2 pb-2'> {pokeTextInfo.flavor_text_entries[0].flavor_text} </p>
+            {/* <p className='pt-2 pb-2'> {pokeTextInfo.flavor_text_entries[0].flavor_text} </p> */}
             </Col>
           </Row>
           <Row>
