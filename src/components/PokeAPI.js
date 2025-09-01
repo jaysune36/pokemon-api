@@ -23,14 +23,16 @@ class PokeListAPI {
 }
 
 class PokeListAPIIndividual {
-  get = async(url) => {
+  get = async(url, changeBooStateInd) => {
     try {
       const resp = await fetch(url)
       const data = await resp.json();
+      changeBooStateInd(false);
       return data
     } catch(e) {
       console.log('There was an error fetching individual data', e)
     }
+    
   }
 }
 

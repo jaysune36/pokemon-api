@@ -5,30 +5,21 @@ import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import { Image } from 'react-bootstrap';
-// import { pokeAPIIndividual } from './PokeAPI';
+import { pokeAPIIndividual } from './PokeAPI';
 
 
 function MydModalWithGrid(props) {
 
   const [isHovered, setIsHovered] = useState(false);
-  // const [pokeTextInfo, setPokeTextInfo] = useState([]);
-  // const [pokeUrlBoo, setPokeUrlBoo] = useState(false);
-  // const [pokeUrl, setPokeUrl] = useState('');
+  const [pokeTextInfo, setPokeTextInfo] = useState([]);
+  const [pokeTextLoading, setpokeTextLoading] = useState(true);
   const mainImgModalSrc = useRef(props.Sprite);
 
-  // if(props.url) {
-  //   setPokeUrl(props.url);
-  //   setPokeUrlBoo(true);
-  // } else {
-  //   console.log('false')
-  // }
-
-  //   useEffect(() => {
-  //    if(isHovered) {
-  //     setIsHovered(true)
-  //    }
+    useEffect(() => {
+    pokeAPIIndividual.get(props.url, setpokeTextLoading)
+      .then(data => setPokeTextInfo(data))
       
-  // }, [isHovered])
+  }, [])
   
   
   const PokeImgList = {
@@ -78,7 +69,9 @@ function MydModalWithGrid(props) {
           </Row>
           <Row className='border-top border-bottom'>
             <Col>
-            {/* <p className='pt-2 pb-2'> {pokeTextInfo.flavor_text_entries[0].flavor_text} </p> */}
+            {pokeTextLoading ? (<p>Still loading</p>) : (<p className='pt-2 pb-2'> {pokeTextInfo.flavor_text_entries[0].flavor_text} </p>)
+            
+            }
             </Col>
           </Row>
           <Row>
