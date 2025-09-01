@@ -11,7 +11,7 @@ function PokeCard (props) {
       <Card className="pokeCard" id={props.id} onClick={()=> setModalShow(true)}>
         <Card.Img variant="top" className="pokeCardImg" src={props.sprite}/>
         <Card.Body className="border-top pokeCardBdy">
-          <Card.Title>{props.name}</Card.Title>
+          <Card.Title className="text-capitalize">{props.name}</Card.Title>
         </Card.Body>
       </Card>
 

@@ -15,6 +15,8 @@ function MydModalWithGrid(props) {
   const [pokeTextLoading, setpokeTextLoading] = useState(true);
   const mainImgModalSrc = useRef(props.Sprite);
 
+  const baseStatDisplay = [];
+
     useEffect(() => {
     pokeAPIIndividual.get(props.url, setpokeTextLoading)
       .then(data => setPokeTextInfo(data))
@@ -39,6 +41,12 @@ function MydModalWithGrid(props) {
   const handleMouseLeave = () => {
     setIsHovered(false);
     mainImgModalSrc.current.src = PokeImgList.mainImg;
+  }
+
+  for(let key of Object.keys(props.pokeListPokemon.stats)) {
+    baseStatDisplay.push(
+      <p>{props.pokeListPokemon.stats[key].stat.name}: {props.pokeListPokemon.stats[key].base_stat}</p>
+    )
   }
 
   return (
@@ -69,7 +77,7 @@ function MydModalWithGrid(props) {
           </Row>
           <Row className='border-top border-bottom'>
             <Col>
-            {pokeTextLoading ? (<p>Still loading</p>) : (<p className='pt-2 pb-2'> {pokeTextInfo.flavor_text_entries[0].flavor_text} </p>)
+            {pokeTextLoading ? (<p>Still loading</p>) : (<p className='pt-2 pb-2'> {pokeTextInfo.flavor_text_entries[8].flavor_text} </p>)
             
             }
             </Col>
@@ -77,7 +85,8 @@ function MydModalWithGrid(props) {
           <Row>
 
             <Col xs={6} md={4}>
-              .col-xs-6 .col-md-4
+              <p>Base Stats:</p>
+              {baseStatDisplay}
             </Col>
             <Col xs={6} md={4}>
               .col-xs-6 .col-md-4
