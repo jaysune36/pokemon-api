@@ -9,6 +9,7 @@ import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import { pokeListAPI } from './components/PokeAPI';
 import Home from './components/Home';
 import PokeCardList from './components/PokeCardList';
+import DetailsPage from './components/DetailsPage';
 
 function App() {
 
@@ -26,20 +27,28 @@ function App() {
     <Router >
      <Navbar bg="primary" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">PokeList API</Navbar.Brand>
+          <Navbar.Brand href="/">PokeList API</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
-      {isLoading ? (
-            <Home />
+      <Routes>
+          <Route path='/poke-details' element={<DetailsPage/>}>
+
+          </Route>
+        {isLoading ? (
+            <Route path='/' element={<Home />}>
+              
+            </Route> 
         ) : (
-            <PokeCardList pokeList={pokeList} />
+          <Route path='/' element={<PokeCardList path='/' pokeList={pokeList} />} >
+          </Route>
+           
         )
       }
+      </Routes>
+      
     </Router>
           
       

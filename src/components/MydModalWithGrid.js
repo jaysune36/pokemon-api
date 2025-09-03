@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -16,6 +17,7 @@ function MydModalWithGrid(props) {
   const mainImgModalSrc = useRef(props.Sprite);
 
   const baseStatDisplay = [];
+  const navigate = useNavigate();
 
     useEffect(() => {
     pokeAPIIndividual.get(props.url, setpokeTextLoading)
@@ -89,7 +91,7 @@ function MydModalWithGrid(props) {
               {baseStatDisplay}
             </Col>
             <Col xs={6} md={4}>
-              .col-xs-6 .col-md-4
+              <Button variant='outline-info' onClick={() => {navigate('/poke-details')}}>Click to Learn More...</Button>
             </Col>
           </Row>
         
