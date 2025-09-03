@@ -34,7 +34,7 @@ function App() {
         </Container>
       </Navbar>
       <Routes>
-          <Route path='/poke-details' element={<DetailsPage/>}>
+          <Route path='/poke-details' element={<DetailsPage />}>
 
           </Route>
         {isLoading ? (
