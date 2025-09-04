@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -6,25 +6,15 @@ import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import { Image } from 'react-bootstrap';
-import { type } from '@testing-library/user-event/dist/type';
-// import { pokeAPIIndividual } from './PokeAPI';
 
 
 function MydModalWithGrid(props) {
 
   const [isHovered, setIsHovered] = useState(false);
-  // const [pokeTextInfo, setPokeTextInfo] = useState([]);
-  // const [pokeTextLoading, setpokeTextLoading] = useState(true);
   const mainImgModalSrc = useRef(props.Sprite);
 
 
   const navigate = useNavigate();
-
-  //   useEffect(() => {
-  //   pokeAPIIndividual.get(props.url, setpokeTextLoading)
-  //     .then(data => setPokeTextInfo(data))
-      
-  // }, [])
 
   const pokeType = [];
   
@@ -67,22 +57,21 @@ function MydModalWithGrid(props) {
     shinyBackImg: props.pokeListPokemon.sprites.back_shiny
   }
 
-  const handleMouseOver = (imgRef) => {
-    setIsHovered(true);
-    if(mainImgModalSrc.current.src === PokeImgList.mainImg || isHovered) {
-      mainImgModalSrc.current.src = imgRef;
-    }
-  }
+  // const handleMouseOver = (imgRef, hoverState) => {
+  //   hoverState(true);
+  //   if(mainImgModalSrc.current.src === PokeImgList.mainImg || isHovered) {
+  //     mainImgModalSrc.current.src = imgRef;
+  //   }
+  // }
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    mainImgModalSrc.current.src = PokeImgList.mainImg;
-  }
+  // const handleMouseLeave = () => {
+  //   setIsHovered(false);
+  //   mainImgModalSrc.current.src = PokeImgList.mainImg;
+  // }
 
   const navigateAndTransferPokeInfo = () => {
     navigate('/poke-details', {state: 
       {
-        // pokeTextInfo: pokeTextInfo, 
       name: props.name,
       pokeImgArr: PokeImgList,
       pokeListPokemon: props.pokeListPokemon,
@@ -91,16 +80,8 @@ function MydModalWithGrid(props) {
     } });
   }
 
-  for(let key of Object.keys(props.pokeListPokemon.types)) {
-    for(let i=0; i<typeColorObj.length; i++) {
-      if(typeColorObj[i].name === props.pokeListPokemon.types[key].type.name) {
-        pokeType.push(<p 
-          className='text-capitalize text-center fs-4 border border-dark rounded w-25' 
-          style={{backgroundColor: typeColorObj[i].color}}
-          >{props.pokeListPokemon.types[key].type.name}</p>)
-      }
-    }
-  }
+typeBackgroundColor(props.pokeListPokemon.types, typeColorObj, pokeType);
+  
 
   return (
     <Modal {...props} aria-labelledby="contained-modal-title-vcenter">
@@ -116,23 +97,18 @@ function MydModalWithGrid(props) {
               <Image src={PokeImgList.mainImg} ref={mainImgModalSrc}/>
             </Col>
             <Col xs={6} md={4} className='sideImgModal'>
-            <Image onMouseEnter={()=>handleMouseOver(PokeImgList.mainBackImg)} 
-            onMouseLeave={handleMouseLeave}
+            <Image onMouseEnter={()=>handleMouseOver(mainImgModalSrc, PokeImgList.mainBackImg, PokeImgList.mainImg, setIsHovered, isHovered)} 
+            onMouseLeave={() => handleMouseLeave(setIsHovered, mainImgModalSrc, PokeImgList.mainImg)}
             src={PokeImgList.mainBackImg}
             />
-            <Image onMouseEnter={()=>handleMouseOver(PokeImgList.shinyImg)} 
-            onMouseLeave={handleMouseLeave}
+            <Image onMouseEnter={()=>handleMouseOver(mainImgModalSrc, PokeImgList.shinyImg, PokeImgList.mainImg, setIsHovered, isHovered)} 
+            onMouseLeave={() => handleMouseLeave(setIsHovered, mainImgModalSrc, PokeImgList.mainImg)}
             src={PokeImgList.shinyImg}/>
-            <Image onMouseEnter={()=>handleMouseOver(PokeImgList.shinyBackImg)} 
-            onMouseLeave={handleMouseLeave} src={PokeImgList.shinyBackImg}/>
+            <Image onMouseEnter={()=>handleMouseOver(mainImgModalSrc, PokeImgList.shinyBackImg, PokeImgList.mainImg, setIsHovered, isHovered)} 
+            onMouseLeave={() => handleMouseLeave(setIsHovered, mainImgModalSrc, PokeImgList.mainImg)} src={PokeImgList.shinyBackImg}/>
             </Col>
           </Row>
           <Row>
-            {/* <Col>
-            {pokeTextLoading ? (<p>Still loading</p>) : (<p className='pt-2 pb-2'> {pokeTextInfo.flavor_text_entries[8].flavor_text} </p>)
-            
-            }
-            </Col> */}
             <Col className='d-flex flex-col gap-1'>
               {pokeType}
             </Col>
@@ -148,4 +124,29 @@ function MydModalWithGrid(props) {
   );
 }
 
-export default MydModalWithGrid
+export default MydModalWithGrid;
+
+export const typeBackgroundColor = (arr1, arr2, arr3) => {
+  for(let key of Object.keys(arr1)) {
+    for(let i=0; i<arr2.length; i++) {
+      if(arr2[i].name === arr1[key].type.name) {
+        arr3.push(<p 
+          className='text-capitalize text-center fs-4 border border-dark rounded w-25' 
+          style={{backgroundColor: arr2[i].color}}
+          >{arr1[key].type.name}</p>)
+      };
+    };
+  };
+};
+
+export const handleMouseOver = (imgRef, imgRefSrc, imgArr, hoverState, hoverBoolean) => {
+    hoverState(true);
+    if(imgRef.current.src === imgArr || hoverBoolean) {
+      imgRef.current.src = imgRefSrc;
+    }
+  }
+
+export const handleMouseLeave = (hoverState, imgRef, imgRefSrcSet) => {
+    hoverState(false);
+    imgRef.current.src = imgRefSrcSet;
+  }

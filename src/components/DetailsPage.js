@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom';
 import { pokeAPIIndividual } from './PokeAPI';
 import Image from 'react-bootstrap/Image';
 import Row from 'react-bootstrap/Row'
 import { Col, Container } from 'react-bootstrap';
+import { typeBackgroundColor, handleMouseOver, handleMouseLeave } from './MydModalWithGrid';
 
 
 function DetailsPage() {
   const [pokeTextInfo, setPokeTextInfo] = useState([]);
+  const [hoverState, setHoverState] = useState(false)
   const [pokeTextLoading, setpokeTextLoading] = useState(true);
-const location = useLocation();
-  const { name, 
-    // pokeTextInfo, 
-    pokeImgArr, pokeListPokemon, id, typeColorObj } = location.state;
+  const location = useLocation();
+  const { name, pokeImgArr, pokeListPokemon, id, typeColorObj } = location.state;
+  const mainDetailImg = useRef(pokeImgArr.mainImg);
 
     const pokeTypeDetails = []
 
@@ -32,27 +33,21 @@ const location = useLocation();
     )
   }
 
+  typeBackgroundColor(pokeListPokemon.types, typeColorObj, pokeTypeDetails);
 
-    for(let key of Object.keys(pokeListPokemon.types)) {
-      for(let i=0; i<typeColorObj.length; i++) {
-        if(typeColorObj[i].name === pokeListPokemon.types[key].type.name) {
-          pokeTypeDetails.push(<p 
-            className='text-capitalize text-center fs-4 border border-dark rounded w-25' 
-            style={{backgroundColor: typeColorObj[i].color}}
-            >{pokeListPokemon.types[key].type.name}</p>)
-        }
-      }
-    }
 
   return (
       <Container>
         <Row>
           <Col>
-            <Image className='d-block w-50 mx-auto my-0 p-0' src={pokeImgArr.mainImg}/>
-            <div className='d-flex flex-row justify-content-center'>
-              <Image src={pokeImgArr.mainBackImg}/>
-              <Image src={pokeImgArr.shinyImg}/>
-              <Image src={pokeImgArr.shinyBackImg}/>
+            <Image className='d-block w-50 mx-auto my-0 p-0' src={pokeImgArr.mainImg} ref={mainDetailImg}/>
+            <div className='d-flex flex-row justify-content-center detailImgList'>
+              <Image src={pokeImgArr.mainBackImg} onMouseEnter={()=>handleMouseOver(mainDetailImg, pokeImgArr.mainBackImg, pokeImgArr.mainImg, setHoverState, hoverState)}
+                onMouseLeave={() => handleMouseLeave(setHoverState, mainDetailImg, pokeImgArr.mainImg)}/>
+              <Image src={pokeImgArr.shinyImg} onMouseEnter={()=>handleMouseOver(mainDetailImg, pokeImgArr.shinyImg, pokeImgArr.mainImg, setHoverState, hoverState)}
+              onMouseLeave={() => handleMouseLeave(setHoverState, mainDetailImg, pokeImgArr.mainImg)}/>
+              <Image src={pokeImgArr.shinyBackImg} onMouseEnter={()=>handleMouseOver(mainDetailImg, pokeImgArr.shinyBackImg, pokeImgArr.mainImg, setHoverState, hoverState)}
+                onMouseLeave={() => handleMouseLeave(setHoverState, mainDetailImg, pokeImgArr.mainImg)}/>
             </div>
           </Col>
         </Row>
@@ -77,11 +72,6 @@ const location = useLocation();
             
             }
             </Col>
-
-          {/* <Col md={6} >
-            <p>PokeDex Entry: {+id + 1}</p>
-            <p>{pokeTextInfo.flavor_text_entries[8].flavor_text}</p>
-          </Col> */}
         </Row>
       </Container>
   )
