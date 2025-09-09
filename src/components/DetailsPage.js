@@ -20,12 +20,10 @@ function DetailsPage() {
   const pokeTypeDetails = [];
 
   useEffect(() => {
-    pokeAPIIndividual.get(pokeListPokemon.species.url, setpokeTextLoading)
+    pokeAPIIndividual.get(`pokemon-species/${+id + 1}/`, setpokeTextLoading)
       .then(data => setPokeTextInfo(data))
       
   }, [])
-
-  let evoLink = `https://pokeapi.co/api/v2/`
 
   const baseStatDisplay = [];
 
@@ -63,8 +61,6 @@ function DetailsPage() {
 
   typeBackgroundColor(pokeListPokemon.types, typeColorObj, pokeTypeDetails);
 
-  console.log(`${evoLink}/evolution_chart/url`)
-
   return (
       <Container>
         <Row>
@@ -89,7 +85,7 @@ function DetailsPage() {
           </Col>
         </Row>
         <Row>
-          <EvoChart url={pokeListPokemon.species.url}/>
+          <EvoChart id={id}/>
         </Row>
         <Row> 
           <Col md={6}>
@@ -101,7 +97,6 @@ function DetailsPage() {
            <p>PokeDex Entry: {+id + 1}</p>
             {pokeTextLoading ? (<p>Still loading</p>) : (
               <p className='pt-2 pb-2'> {pokeTextInfo.flavor_text_entries[8].flavor_text} </p>)
-            
             }
             </Col>
         </Row>

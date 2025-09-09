@@ -15,11 +15,12 @@ function App() {
 
   const [pokeList, setPokeList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const pokeListNum = 151;
 
+    
   useEffect(() => {
     const pokeListArr = [];
-    
-    pokeListAPI.get(pokeListArr, setIsLoading);
+    pokeListAPI.get(`/pokemon/`, pokeListNum, pokeListArr, setIsLoading);
     setPokeList(pokeListArr);
   }, [])
 
