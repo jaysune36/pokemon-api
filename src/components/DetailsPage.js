@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom';
 import { pokeAPIIndividual } from './PokeAPI';
 import Image from 'react-bootstrap/Image';
-import Row from 'react-bootstrap/Row'
+import Row from 'react-bootstrap/Row';
+import ProgressBar from 'react-bootstrap/ProgressBar';
 import { Col, Container } from 'react-bootstrap';
 import { typeBackgroundColor, handleMouseOver, handleMouseLeave } from './MydModalWithGrid';
 
@@ -15,7 +16,7 @@ function DetailsPage() {
   const { name, pokeImgArr, pokeListPokemon, id, typeColorObj } = location.state;
   const mainDetailImg = useRef(pokeImgArr.mainImg);
 
-    const pokeTypeDetails = []
+  const pokeTypeDetails = [];
 
   useEffect(() => {
     pokeAPIIndividual.get(pokeListPokemon.species.url, setpokeTextLoading)
@@ -23,14 +24,38 @@ function DetailsPage() {
       
   }, [])
 
-  
-
   const baseStatDisplay = [];
 
    for(let key of Object.keys(pokeListPokemon.stats)) {
-    baseStatDisplay.push(
-      <p key={key}>{pokeListPokemon.stats[key].stat.name}: {pokeListPokemon.stats[key].base_stat}</p>
-    )
+    switch(pokeListPokemon.stats[key].stat.name) {
+        case 'attack':
+        case 'special-attack':
+        baseStatDisplay.push(
+          <ProgressBar key={key} variant='info' label={`${pokeListPokemon.stats[key].stat.name}: ${pokeListPokemon.stats[key].base_stat}`} now={pokeListPokemon.stats[key].base_stat} className='mb-1 text-capitalize'>
+      </ProgressBar> 
+      )
+      break;   
+      case 'defense':
+        case 'special-defense':
+        baseStatDisplay.push(
+          <ProgressBar key={key} variant='warning' label={`${pokeListPokemon.stats[key].stat.name}: ${pokeListPokemon.stats[key].base_stat}`} now={pokeListPokemon.stats[key].base_stat} className='mb-1 text-capitalize'>
+      </ProgressBar> )
+      break; 
+      case 'hp':
+        baseStatDisplay.push(
+          <ProgressBar key={key} variant='success' label={`${pokeListPokemon.stats[key].stat.name}: ${pokeListPokemon.stats[key].base_stat}`} now={pokeListPokemon.stats[key].base_stat} className='mb-1 text-capitalize'>
+      </ProgressBar> )
+      break; 
+      case 'speed':
+        baseStatDisplay.push(
+          <ProgressBar key={key} variant='danger' label={`${pokeListPokemon.stats[key].stat.name}: ${pokeListPokemon.stats[key].base_stat}`} now={pokeListPokemon.stats[key].base_stat} className='mb-1 text-capitalize'>
+      </ProgressBar> )
+      break; 
+      default:
+        console.log('invalid value');
+        break;
+      }
+   
   }
 
   typeBackgroundColor(pokeListPokemon.types, typeColorObj, pokeTypeDetails);

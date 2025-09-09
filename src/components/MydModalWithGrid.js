@@ -57,18 +57,6 @@ function MydModalWithGrid(props) {
     shinyBackImg: props.pokeListPokemon.sprites.back_shiny
   }
 
-  // const handleMouseOver = (imgRef, hoverState) => {
-  //   hoverState(true);
-  //   if(mainImgModalSrc.current.src === PokeImgList.mainImg || isHovered) {
-  //     mainImgModalSrc.current.src = imgRef;
-  //   }
-  // }
-
-  // const handleMouseLeave = () => {
-  //   setIsHovered(false);
-  //   mainImgModalSrc.current.src = PokeImgList.mainImg;
-  // }
-
   const navigateAndTransferPokeInfo = () => {
     navigate('/poke-details', {state: 
       {
