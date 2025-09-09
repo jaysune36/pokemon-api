@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { Col, Container } from 'react-bootstrap';
 import { typeBackgroundColor, handleMouseOver, handleMouseLeave } from './MydModalWithGrid';
+import EvoChart from './EvoChart';
 
 
 function DetailsPage() {
@@ -23,6 +24,8 @@ function DetailsPage() {
       .then(data => setPokeTextInfo(data))
       
   }, [])
+
+  let evoLink = `https://pokeapi.co/api/v2/`
 
   const baseStatDisplay = [];
 
@@ -60,6 +63,7 @@ function DetailsPage() {
 
   typeBackgroundColor(pokeListPokemon.types, typeColorObj, pokeTypeDetails);
 
+  console.log(`${evoLink}/evolution_chart/url`)
 
   return (
       <Container>
@@ -83,6 +87,9 @@ function DetailsPage() {
             {pokeTypeDetails}
             </div>
           </Col>
+        </Row>
+        <Row>
+          <EvoChart url={pokeListPokemon.species.url}/>
         </Row>
         <Row> 
           <Col md={6}>
