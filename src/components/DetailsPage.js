@@ -11,6 +11,12 @@ import EvoChart from './EvoChart';
 
 function DetailsPage() {
   const [pokeTextInfo, setPokeTextInfo] = useState([]);
+  const [pokeEvoChain, setPokeEvoChain] = useState('');
+  const [pokeEvoChainBoolean, setPokeChainBoolean] = useState(false)
+  const [pokeEvoTo, setPokeEvoTo] = useState([]);
+  const [doPokeEvoTo, setDoPokeEvoTo] = useState(false);
+  const [pokeEvoFrom, setPokeEvoFrom] = useState([]);
+  const [doPokeEvoFrom, setDoPokeEvoFrom] = useState(false);
   const [hoverState, setHoverState] = useState(false)
   const [pokeTextLoading, setpokeTextLoading] = useState(true);
   const location = useLocation();
@@ -18,13 +24,28 @@ function DetailsPage() {
   const mainDetailImg = useRef(pokeImgArr.mainImg);
 
   const pokeTypeDetails = [];
+  
 
   useEffect(() => {
-    pokeAPIIndividual.get(`pokemon-species/${+id + 1}/`, setpokeTextLoading)
-      .then(data => setPokeTextInfo(data))
-      
-  }, [])
 
+        pokeAPIIndividual.get(`pokemon-species/${+id + 1}/`, setpokeTextLoading)
+            .then(data => setPokeTextInfo(data))
+            .then(setPokeEvoChain(pokeTextInfo.evolution_chain.url));
+        const fetchData = async () => {
+          try {
+          const resp2 = await fetch(pokeEvoChain);
+          const data2 = await resp2.json();
+          setDoPokeEvoTo(data2);
+        } catch (e) {
+          console.log('there was an error fetching evo Data', e)
+        }
+        }
+
+        fetchData();
+        
+  }, []);
+
+  console.log(pokeEvoTo)
   const baseStatDisplay = [];
 
    for(let key of Object.keys(pokeListPokemon.stats)) {

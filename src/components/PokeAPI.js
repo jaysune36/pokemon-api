@@ -1,6 +1,6 @@
 //variables created to be easily used within the Class function. The PokeAPI Class is used to create async functions for each method.
 
-const POKELIST_API = `https://pokeapi.co/api/v2/pokemon?limit=151&offset=0`;
+// const POKELIST_API = `https://pokeapi.co/api/v2/pokemon?limit=151&offset=0`;
 const POKELIST_API_HTML = `https://pokeapi.co/api/v2/`;
 
 class PokeListAPI {
@@ -13,9 +13,6 @@ class PokeListAPI {
         const data1 = await resp1.json();
         arr.push(data1)
       }
-      
-
-
       // for(let key of Object.keys(data1.results)) {
       //   const resp2 = await fetch(data1.results[key].url);
       //   const data2 = await resp2.json()

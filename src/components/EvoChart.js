@@ -8,14 +8,14 @@ function EvoChart({id}) {
   const [evoChartLoading, setEvoCharLoading] = useState(false);
   const evolChainMark = +id + 2;
 
-  const evoChartImg = [];
+  // const evoChartImg = [];
 
-  useEffect(() => {
-    pokeAPIIndividual.get(`evolution-chain/${+id +1}/`, setEvoCharLoading)
-      .then(data => setEvoChart(data))
-  }, [])
+  // useEffect(() => {
+  //   pokeAPIIndividual.get(`evolution-chain/${+id +1}/`, setEvoCharLoading)
+  //     .then(data => setEvoChart(data))
+  // }, [])
 
-console.log(+id +1);
+// console.log(+id +1);
 
   return (
     <div className='d-block-flex flex-row justify-content-center a mt-2 mb-2'>
