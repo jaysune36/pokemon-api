@@ -2,20 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Image } from 'react-bootstrap';
 import { pokeAPIIndividual } from './PokeAPI';
 
-function EvoChart({id}) {
+function EvoChart({evoChain}) {
 
   const [evoChart, setEvoChart] = useState({});
   const [evoChartLoading, setEvoCharLoading] = useState(false);
-  const evolChainMark = +id + 2;
-
-  // const evoChartImg = [];
-
-  // useEffect(() => {
-  //   pokeAPIIndividual.get(`evolution-chain/${+id +1}/`, setEvoCharLoading)
-  //     .then(data => setEvoChart(data))
-  // }, [])
-
-// console.log(+id +1);
 
   return (
     <div className='d-block-flex flex-row justify-content-center a mt-2 mb-2'>
@@ -24,7 +14,8 @@ function EvoChart({id}) {
         evoChartLoading ? (
           <p>loading...</p>
         ) : (
-          <p>Loaded</p>
+         <p>{evoChain.chain.evolves_to[0].species.name}</p>
+        // console.log(evoChain.chain.evolves_to[0].species.name)
         )
       }
     </div>

@@ -11,12 +11,7 @@ import EvoChart from './EvoChart';
 
 function DetailsPage() {
   const [pokeTextInfo, setPokeTextInfo] = useState([]);
-  const [pokeEvoChain, setPokeEvoChain] = useState('');
-  const [pokeEvoChainBoolean, setPokeChainBoolean] = useState(false)
-  const [pokeEvoTo, setPokeEvoTo] = useState([]);
-  const [doPokeEvoTo, setDoPokeEvoTo] = useState(false);
-  const [pokeEvoFrom, setPokeEvoFrom] = useState([]);
-  const [doPokeEvoFrom, setDoPokeEvoFrom] = useState(false);
+  const [ error, setError ] = useState(null);
   const [hoverState, setHoverState] = useState(false)
   const [pokeTextLoading, setpokeTextLoading] = useState(true);
   const location = useLocation();
@@ -28,24 +23,31 @@ function DetailsPage() {
 
   useEffect(() => {
 
-        pokeAPIIndividual.get(`pokemon-species/${+id + 1}/`, setpokeTextLoading)
-            .then(data => setPokeTextInfo(data))
-            .then(setPokeEvoChain(pokeTextInfo.evolution_chain.url));
-        const fetchData = async () => {
+        const fetchData = async() => {
           try {
-          const resp2 = await fetch(pokeEvoChain);
-          const data2 = await resp2.json();
-          setDoPokeEvoTo(data2);
-        } catch (e) {
-          console.log('there was an error fetching evo Data', e)
-        }
-        }
+            const resp1 = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${+id + 1}/`);
+          if(!resp1.ok) {
+            throw new Error(`HTTP error! status: ${resp1.status}`);
+          }
+           const data1 = await resp1.json();
+           const resp2 = await fetch(`${data1.evolution_chain.url}`);
+          if(!resp2.ok) {
+            throw new Error(`HTTP error! status: ${resp2.status}`);
+          }
+           const data2 = await resp2.json();
+
+           setPokeTextInfo({data1, data2})
+          } catch(e) {
+            setError(e);
+          }finally {
+            setpokeTextLoading(false)
+          }
+        } 
 
         fetchData();
         
   }, []);
 
-  console.log(pokeEvoTo)
   const baseStatDisplay = [];
 
    for(let key of Object.keys(pokeListPokemon.stats)) {
@@ -106,7 +108,11 @@ function DetailsPage() {
           </Col>
         </Row>
         <Row>
-          <EvoChart id={id}/>
+          
+          {pokeTextLoading ? (<p>Still loading</p>) : (
+             <EvoChart evoChain = {pokeTextInfo.data2}/>
+            )
+            }
         </Row>
         <Row> 
           <Col md={6}>
@@ -117,7 +123,9 @@ function DetailsPage() {
           <Col>
            <p>PokeDex Entry: {+id + 1}</p>
             {pokeTextLoading ? (<p>Still loading</p>) : (
-              <p className='pt-2 pb-2'> {pokeTextInfo.flavor_text_entries[8].flavor_text} </p>)
+              <p className='pt-2 pb-2'> 
+              {pokeTextInfo.data1.flavor_text_entries[8].flavor_text} 
+              </p>)
             }
             </Col>
         </Row>
