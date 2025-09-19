@@ -14,12 +14,11 @@ function EvoChart({evoChain}) {
     for(let key of Object.keys(obj)) {
       if(obj.hasOwnProperty(key)) {
         const value = obj[key];
-        if(typeof value === 'object' && value !== null) {
-          console.log(`Key: ${key}, Value (is an object)`)
-          console.log(value)
-          traverseObject(value)
+        if(key === 'evolves_to') {
+          console.log(`Key: ${key}, Value (${value})`);
+          traverseObject(value);
         } else {
-          console.log(`Key: ${key}, Value: ${value}`)
+          console.log(`false`);
         }
       }
     }
@@ -37,7 +36,7 @@ function EvoChart({evoChain}) {
   g: [4, 5, { h: 6 }]
 };
 
-  traverseObject(evoChain.chain.evolves_to)
+  // traverseObject(evoChain.chain.evolves_to)
 
  
 
@@ -48,7 +47,7 @@ function EvoChart({evoChain}) {
         evoChartLoading ? (
           <p>loading...</p>
         ) : ( */}
-        <p>{evoChain.chain.species.name}</p>
+        <p onClick={()=>traverseObject(evoChain.chain)}>{evoChain.chain.species.name}</p>
         {evoChainArr}
          {/* <p>{evoChain.chain.species.name}</p>
          <p>{evoChain.chain.evolves_to[0].species.name}</p>
