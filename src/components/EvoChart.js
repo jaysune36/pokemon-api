@@ -14,12 +14,13 @@ function EvoChart({evoChain}) {
     for(let key of Object.keys(obj)) {
       if(obj.hasOwnProperty(key)) {
         const value = obj[key];
-        if(key === 'evolves_to') {
-          console.log(`Key: ${key}, Value (${value})`);
-          traverseObject(value);
-        } else {
-          console.log(`false`);
-        }
+        if(typeof value === 'object' && value !== null) {
+          console.log(value)
+          traverseObject(value)
+        } 
+        // else {
+        //   console.log(`Key: ${key}, Value: ${value}`)
+        // }
       }
     }
   }
