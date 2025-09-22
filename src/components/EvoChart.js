@@ -4,23 +4,23 @@ import { pokeAPIIndividual } from './PokeAPI';
 
 function EvoChart({evoChain}) {
 
-  // const [evoChart, setEvoChart] = useState({});
-  // const [evoChartLoading, setEvoCharLoading] = useState(false);
-
-  let evoChainArr = []
-  // console.log(evoChain.chain.evolves_to);
+  let evoChainArr = [];
 
   function traverseObject(obj) {
     for(let key of Object.keys(obj)) {
       if(obj.hasOwnProperty(key)) {
         const value = obj[key];
         if(typeof value === 'object' && value !== null) {
-          console.log(value)
+          if(key === 'evolves_to' && value[0] !== undefined) {
+            for(let i=0; i<value.length; i++) {
+              console.log(value[i].species.name);
+            }
+            
+            // console.log(value);
+          } 
           traverseObject(value)
         } 
-        // else {
-        //   console.log(`Key: ${key}, Value: ${value}`)
-        // }
+        
       }
     }
   }
@@ -36,10 +36,6 @@ function EvoChart({evoChain}) {
   },
   g: [4, 5, { h: 6 }]
 };
-
-  // traverseObject(evoChain.chain.evolves_to)
-
- 
 
   return (
     <div className='d-block-flex flex-row justify-content-center a mt-2 mb-2'>
