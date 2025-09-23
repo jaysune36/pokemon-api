@@ -13,12 +13,19 @@ function EvoChart({evoChain}) {
         if(typeof value === 'object' && value !== null) {
           if(key === 'evolves_to' && value[0] !== undefined) {
             for(let i=0; i<value.length; i++) {
-              console.log(value[i].evolution_details);
-              evoChainArr.push(<p>Evolves To: {value[i].species.name}</p>)
-              if(value[i].evolution_details[0].min_level) {
-                evoChainArr.push(<p>@{value[i].evolution_details[0].min_level}</p>)
+              // console.log(value[i].evolution_details);
+
+              if(value[i].evolution_details[0].item !== null) {
+                evoChainArr.push(<p>Stone: {value[i].evolution_details[0].item.name}</p>);
+              evoChainArr.push(<p className='text-capitalize'>Evolves To: {value[i].species.name}</p>);
+              } else if(value[i].evolution_details[0].min_level) {
+                evoChainArr.push(<p className='evo-text'>- <p>Level Up</p>{value[i].evolution_details[0].min_level} &#8594;</p>);
+              evoChainArr.push(<p className='text-capitalize'>Evolves To: {value[i].species.name}</p>);
               } else if (value[i].evolution_details[0].trigger) {
-                evoChainArr.push(<p>@{value[i].evolution_details[0].trigger.name}</p>)
+                evoChainArr.push(<p>From: {value[i].evolution_details[0].trigger.name}</p>);
+              evoChainArr.push(<p className='text-capitalize'>Evolves To: {value[i].species.name}</p>);
+              } else {
+                evoChainArr.push(<p>This Pokemon does not Evolve</p>)
               }
     
             }
@@ -49,8 +56,10 @@ traverseObject(evoChain.chain)
   return (
     <div className='d-block-flex flex-row justify-content-center a mt-2 mb-2'>
       <h6 className='text-center'>Evolution Chart</h6>
-     <p onClick={()=>traverseObject(evoChain.chain)}>{evoChain.chain.species.name}</p>
-        {evoChainArr}
+        <div className='d-flex justify-content-between flex-wrap'>
+     <p className='text-capitalize' onClick={()=>traverseObject(evoChain.chain)}>{evoChain.chain.species.name}</p>
+          {evoChainArr}
+        </div>
      
     </div>
   )
