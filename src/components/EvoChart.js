@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Image } from 'react-bootstrap';
 import { pokeAPIIndividual } from './PokeAPI';
+import { isValidDateValue } from '@testing-library/user-event/dist/utils';
 
 function EvoChart({evoChain}) {
 
@@ -13,24 +14,20 @@ function EvoChart({evoChain}) {
         if(typeof value === 'object' && value !== null) {
           if(key === 'evolves_to' && value[0] !== undefined) {
             for(let i=0; i<value.length; i++) {
-              // console.log(value[i].evolution_details);
-
               if(value[i].evolution_details[0].item !== null) {
-                evoChainArr.push(<p>Stone: {value[i].evolution_details[0].item.name}</p>);
-              evoChainArr.push(<p className='text-capitalize'>Evolves To: {value[i].species.name}</p>);
+                evoChainArr.push(<p className='evo-text'>- {value[i].evolution_details[0].item.name} &#8594;</p>);
+              evoChainArr.push(<p className='text-capitalize'>{value[i].species.name}</p>);
               } else if(value[i].evolution_details[0].min_level) {
-                evoChainArr.push(<p className='evo-text'>- <p>Level Up</p>{value[i].evolution_details[0].min_level} &#8594;</p>);
-              evoChainArr.push(<p className='text-capitalize'>Evolves To: {value[i].species.name}</p>);
+                evoChainArr.push(<p className='evo-text'>- Level Up {value[i].evolution_details[0].min_level} &#8594;</p>);
+              evoChainArr.push(<p className='text-capitalize'>{value[i].species.name}</p>);
               } else if (value[i].evolution_details[0].trigger) {
-                evoChainArr.push(<p>From: {value[i].evolution_details[0].trigger.name}</p>);
-              evoChainArr.push(<p className='text-capitalize'>Evolves To: {value[i].species.name}</p>);
+                evoChainArr.push(<p className='evo-text'>- {value[i].evolution_details[0].trigger.name} &#8594;</p>);
+              evoChainArr.push(<p className='text-capitalize'>{value[i].species.name}</p>);
               } else {
                 evoChainArr.push(<p>This Pokemon does not Evolve</p>)
               }
     
             }
-            
-            // console.log(value);
           } 
           traverseObject(value)
         } 
@@ -38,20 +35,42 @@ function EvoChart({evoChain}) {
       }
     }
   }
+  
+  function traverseObjectEevee(objEevee) {
+      for(let key of Object.keys(objEevee)) {
+        if(objEevee.hasOwnProperty(key)) {
+          const valueEevee = objEevee[key];
+          if(typeof valueEevee === 'object' && valueEevee !== null) {
+            for(let i =0; i<valueEevee.length; i++) {
+              for(let j=0; j<valueEevee[i].evolution_details.length; j++) {
+                // console.log(valueEevee[i].evolution_details[j])
+                if(valueEevee[i].evolution_details[j].item) {
+                evoChainArr.push(<p className='evo-text'>- {valueEevee[i].evolution_details[j].item.name} &#8594;</p>);
+                evoChainArr.push(<p className='text-capitalize'>{valueEevee[i].species.name}</p>);
+                } else if (valueEevee[i].evolution_details[j].min_happiness) {
+                  if (valueEevee[i].evolution_details[j].time_of_day) {
+                evoChainArr.push(<p className='evo-text'>- Level Up {valueEevee[i].evolution_details[j].time_of_day} &#8594;</p>);
+                evoChainArr.push(<p className='text-capitalize'>{valueEevee[i].species.name}</p>);
+                  } else {
+                evoChainArr.push(<p className='evo-text'>- Level Up Friendship & Must Know {valueEevee[i].evolution_details[j].known_move_type.name} Move &#8594;</p>);
+                evoChainArr.push(<p className='text-capitalize'>{valueEevee[i].species.name}</p>);
+                  }
+                }
+              }
+            }
 
-  const myObject = {
-  a: 1,
-  b: {
-    c: 2,
-    d: {
-      e: 3,
-      f: 'hello'
+          }
+        }
+      }
     }
-  },
-  g: [4, 5, { h: 6 }]
-};
 
-traverseObject(evoChain.chain)
+  if(evoChain.chain.species.name === 'eevee') {
+    traverseObjectEevee(evoChain.chain)
+  } else {
+    traverseObject(evoChain.chain);
+  }
+
+
 
   return (
     <div className='d-block-flex flex-row justify-content-center a mt-2 mb-2'>
