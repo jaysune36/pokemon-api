@@ -16,17 +16,24 @@ function EvoChart({evoChain}) {
             for(let i=0; i<value.length; i++) {
               if(value[i].evolution_details[0].item !== null) {
                 evoChainArr.push(<p className='evo-text'>- {value[i].evolution_details[0].item.name} &#8594;</p>);
-              evoChainArr.push(<p className='text-capitalize'>{value[i].species.name}</p>);
+              } 
+              // else if (value[i].evolution_details[0].held_item) {
+              //   if(value[i].evolution_details[0].time_of_day) {
+              //     evoChainArr.push(<p className='evo-text'>- Level Up Holding {value[i].evolution_details[0].held_item.name} during {value[i].evolution_details[0].time_of_day} &#8594;</p>);
+              //   } else {
+              //     evoChainArr.push(<p className='evo-text'>- Level Up Holding{value[i].evolution_details[0].held_item} &#8594;</p>);
+              //   }
+              // }
+               else if (value[i].evolution_details[0].min_happiness) {
+                evoChainArr.push(<p className='evo-text'>- Level Up Happiness &#8594;</p>);
               } else if(value[i].evolution_details[0].min_level) {
                 evoChainArr.push(<p className='evo-text'>- Level Up {value[i].evolution_details[0].min_level} &#8594;</p>);
-              evoChainArr.push(<p className='text-capitalize'>{value[i].species.name}</p>);
               } else if (value[i].evolution_details[0].trigger) {
                 evoChainArr.push(<p className='evo-text'>- {value[i].evolution_details[0].trigger.name} &#8594;</p>);
-              evoChainArr.push(<p className='text-capitalize'>{value[i].species.name}</p>);
               } else {
                 evoChainArr.push(<p>This Pokemon does not Evolve</p>)
               }
-    
+              evoChainArr.push(<p className='text-capitalize'>{value[i].species.name}</p>);
             }
           } 
           traverseObject(value)
@@ -43,7 +50,6 @@ function EvoChart({evoChain}) {
           if(typeof valueEevee === 'object' && valueEevee !== null) {
             for(let i =0; i<valueEevee.length; i++) {
               for(let j=0; j<valueEevee[i].evolution_details.length; j++) {
-                // console.log(valueEevee[i].evolution_details[j])
                 if(valueEevee[i].evolution_details[j].item) {
                 evoChainArr.push(<p className='evo-text'>- {valueEevee[i].evolution_details[j].item.name} &#8594;</p>);
                 evoChainArr.push(<p className='text-capitalize'>{valueEevee[i].species.name}</p>);
@@ -56,6 +62,7 @@ function EvoChart({evoChain}) {
                 evoChainArr.push(<p className='text-capitalize'>{valueEevee[i].species.name}</p>);
                   }
                 }
+                
               }
             }
 
